@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 
 <project name="status" basedir="." default="package">
+	
+	<property environment="env"/>
+	
 	<property name="app.name" value="status"/>
     <property name="src" value="src"/>
     <property name="build" value="build"/>
@@ -11,7 +14,8 @@
     <property name="lib" value="${web-inf}/lib"/>
     <property name="html" value="${web-base}/html"/>
 	<property name="war.dir" value="${build}/war"/>
-	<property name="deploy.dir" value="/Users/jon/tomcat/apache-tomcat-8.0.18/webapps"/>
+	<!-- env.TOMCAT should be something like ".../apache-tomcat-8.0.18". -->
+	<property name="deploy.dir" value="${env.TOMCAT}/webapps"/>
 
     <target name="compile" depends="setup">
     	<echo>==== COMPILE ====</echo>
@@ -34,6 +38,7 @@
     </target>
 
 	<target name="deploy" depends="package">
+		<echo>==== DEPLOYING ${app.name}.war to: ${deploy.dir}</echo>
 	    <copyfile src="${build}/${app.name}.war"
 		    	dest="${deploy.dir}/${app.name}.war"
 		    	forceoverwrite="true"/>
