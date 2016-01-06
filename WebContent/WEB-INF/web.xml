@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app>
+
+    <display-name>Small status console</display-name>
+    <description>Small household status display</description>
+
+    <context-param>
+      <param-name>data-file</param-name>
+      <param-value>/tmp/status-data.json</param-value>
+      <description>Location of status data file</description>
+    </context-param>
+
+    <context-param>
+      <param-name>always-reload</param-name>
+      <param-value>true</param-value>
+      <description>Whether to reload data every request</description>
+    </context-param>
+
+    <!-- Servlets -->
+    
+    <servlet>
+      <servlet-name>events</servlet-name>
+      <servlet-class>com.jonandvirginia.small.servlet.ListServlet</servlet-class>
+      <description>produce a list of events</description>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>saveEvent</servlet-name>
+      <servlet-class>com.jonandvirginia.small.servlet.SaveServlet</servlet-class>
+      <description>save an event, old or new</description>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>deleteEvent</servlet-name>
+      <servlet-class>com.jonandvirginia.small.servlet.DeleteServlet</servlet-class>
+      <description>delete an event</description>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!-- Servlet mappings -->
+
+    <servlet-mapping>
+      <servlet-name>events</servlet-name>
+      <url-pattern>/events</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>saveEvent</servlet-name>
+      <url-pattern>/save</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>deleteEvent</servlet-name>
+      <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+
+    <!-- Config -->
+    
+    <session-config>
+      <!-- 8 hours -->
+      <session-timeout>480</session-timeout>
+    </session-config>
+
+</web-app>

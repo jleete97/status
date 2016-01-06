@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<project name="status" basedir="." default="package">
+	<property name="app.name" value="status"/>
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="classes" value="${build}/classes"/>
+    <property name="tools" value="tools"/>
+	<property name="web-base" value="WebContent"/>
+	<property name="web-inf" value="${web-base}/WEB-INF"/>
+    <property name="lib" value="${web-inf}/lib"/>
+    <property name="html" value="${web-base}/html"/>
+	<property name="war.dir" value="${build}/war"/>
+	<property name="deploy.dir" value="/Users/jon/tomcat/apache-tomcat-8.0.18/webapps"/>
+
+    <target name="compile" depends="setup">
+    	<echo>==== COMPILE ====</echo>
+        <javac destdir="${classes}">
+            <src path="${src}"/>
+            <classpath refid="lib"/>
+            <classpath refid="tools"/>
+        </javac>
+    </target>
+
+    <target name="package" depends="compile">
+    	<echo>==== PACKAGE ====</echo>
+        <war destfile="${build}/${app.name}.war"
+	        	basedir="${war.dir}"
+	        	webxml="${web-inf}/web.xml">
+            <fileset dir="${html}"/>
+        	<lib dir="${lib}"/>
+        	<classes dir="${classes}"/>
+        </war>
+    </target>
+
+	<target name="deploy" depends="package">
+	    <copyfile src="${build}/${app.name}.war"
+		    	dest="${deploy.dir}/${app.name}.war"
+		    	forceoverwrite="true"/>
+	</target>
+	
+    <target name="clean">
+    	<echo>==== CLEAN ====</echo>
+        <delete dir="${war.dir}"/>
+    </target>
+
+    <target name="setup" depends="clean">
+    	<echo>==== SET UP ====</echo>
+        <mkdir dir="${war.dir}"/>
+    </target>
+
+    <path id="tools">
+        <fileset dir="${tools}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <path id="lib">
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+</project>
