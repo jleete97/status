@@ -7,8 +7,14 @@
 
     <context-param>
       <param-name>data-file</param-name>
-      <param-value>/tmp/status-data.json</param-value>
+      <param-value>data/status-data.json</param-value>
       <description>Location of status data file</description>
+    </context-param>
+
+    <context-param>
+      <param-name>ui-config-file</param-name>
+      <param-value>data/ui-config.json</param-value>
+      <description>Location of UI configuration file</description>
     </context-param>
 
     <context-param>
@@ -40,6 +46,17 @@
       <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+      <servlet-name>uiConfig</servlet-name>
+      <servlet-class>com.jonandvirginia.small.servlet.UiConfigServlet</servlet-class>
+      <init-param>
+        <param-name>config-file</param-name>
+        <param-value>data/ui-config.json</param-value>
+      </init-param>
+      <description>supply configuration parameters to UI</description>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <!-- Servlet mappings -->
 
     <servlet-mapping>
@@ -55,6 +72,11 @@
     <servlet-mapping>
       <servlet-name>deleteEvent</servlet-name>
       <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>uiConfig</servlet-name>
+      <url-pattern>/ui</url-pattern>
     </servlet-mapping>
 
     <!-- Config -->
