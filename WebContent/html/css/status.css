@@ -2,25 +2,27 @@ div#today {
 	position: fixed;
 	top: 0;
 	left: 0;
-	right: 25%;
-	bottom: 50%;
+	width: 25%;
+	height: 50%;
 	background-color: #ffcccc;
+	padding: 5px;
 }
 
 div#weather {
 	position: fixed;
 	top: 50%;
 	left: 0;
-	right: 25%;
-	bottom: 100%;
+	width: 25%;
+	height: 100%;
 	background-color: #aaffff;
+	padding: 5px;
 }
 
-div#calendar {
+div#calendar-container {
 	position: fixed;
 	top: 0;
 	left: 25%;
-	right: 100%;
+	width: 75%;
 	height: 100%;
 	background-color: #eeee88;
 }
