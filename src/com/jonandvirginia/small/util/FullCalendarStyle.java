@@ -1,5 +1,10 @@
 package com.jonandvirginia.small.util;
 
+import com.jonandvirginia.small.model.FullCalendarEvent;
+
+/**
+ * "Style" attributes (colors) for {@link FullCalendarEvent}.
+ */
 public class FullCalendarStyle {
 
 	private String textColor;

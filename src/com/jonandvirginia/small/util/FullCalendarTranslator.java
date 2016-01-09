@@ -21,10 +21,12 @@ public class FullCalendarTranslator {
 		fce.setAllDay(event.isAllDay());
 		
 		FullCalendarStyle style = styles.get(event.getType());
-		fce.setColor(style.getColor());
-		fce.setBackgroundColor(style.getBackgroundColor());
-		fce.setBorderColor(style.getBorderColor());
-		fce.setTextColor(style.getTextColor());
+		if (style != null) {
+			fce.setColor(style.getColor());
+			fce.setBackgroundColor(style.getBackgroundColor());
+			fce.setBorderColor(style.getBorderColor());
+			fce.setTextColor(style.getTextColor());
+		}
 		
 		return fce;
 	}

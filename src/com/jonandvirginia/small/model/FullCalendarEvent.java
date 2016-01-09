@@ -2,6 +2,10 @@ package com.jonandvirginia.small.model;
 
 import java.util.Date;
 
+/**
+ * FullCalendar version of an event. Similar to a regular {@link Event}, but
+ * includes a few extra attributes (mostly style-related).
+ */
 public class FullCalendarEvent {
 
 	private long id;
