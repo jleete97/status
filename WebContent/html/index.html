@@ -66,20 +66,14 @@
 	    // page is now ready, initialize the calendar...
 
 	    $('#calendar').fullCalendar({
-	        // put your options and callbacks here
+	    	events : "/status/fullCalendarEvents"
 	    });
 	    
-	    
+	    window.setInterval(function() {
+	    	$('#calendar').fullCalendar("refetchEvents");
+	    }, 5000);
 
 	});
-	
-	var toEvent = function(serverEvent) {
-		var event = { };
-		event.id = serverEvent.id;
-		event.title = serverEvent.what;
-		event.allDay = true; //TODO change
-		event.start = serverEvent.when;
-	}
 	</script>
 </head>
 

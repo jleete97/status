@@ -21,7 +21,7 @@ Events:
 <table border="1" cellpadding="5" width="400">
 	<tr><th></th><th>Event</th><th>Date</th></tr>
 	<tr ng-repeat="event in ctrl.events">
-		<td><button ng-click="ctrl.delete(event.id)">X</button></td>
+		<td><button ng-click="ctrl.delete()">X</button></td>
 		<td>{{event.what}}</td>
 		<td>{{event.when}}</td>
 	</tr>
@@ -49,10 +49,26 @@ angular.module("eventsApp", ["ngRoute"])
 	self.add = function() {
 		$http.post("save", self.event).then(list);
 	};
-	self.delete = function(id) {
-		$http.get("delete?id=" + id).then(list);
+/*
+	self.delete = function($scope) {
+		alert("ID = " + $scope.id);
+		$http.delete("/status/delete",
+		{
+			params : { "id" : id }
+		}).then(list);
 	};
+*/
 	self.refresh = list;
+}])
+.controller("ItemCtrl", ["MainCtrl", "$http", function(MainCtrl, $http) {
+	var self = this;
+	self.delete = function($scope) {
+		alert("ID = " + $scope.id);
+		$http.delete("/status/delete",
+		{
+			params : { "id" : id }
+		}).then(MainCtrl.list);
+	};
 }]);
 </script>
 

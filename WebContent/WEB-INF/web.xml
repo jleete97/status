@@ -12,6 +12,12 @@
     </context-param>
 
     <context-param>
+      <param-name>style-file</param-name>
+      <param-value>/tmp/status/style-data.json</param-value>
+      <description>Location of event style file</description>
+    </context-param>
+
+    <context-param>
       <param-name>ui-config-file</param-name>
       <param-value>/tmp/status/ui-config.json</param-value>
       <description>Location of UI configuration file</description>
@@ -29,6 +35,13 @@
       <servlet-name>events</servlet-name>
       <servlet-class>com.jonandvirginia.small.servlet.ListServlet</servlet-class>
       <description>produce a list of events</description>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>fullCalendarEvents</servlet-name>
+      <servlet-class>com.jonandvirginia.small.servlet.FullCalendarServlet</servlet-class>
+      <description>list events in FullCalendar format</description>
       <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -62,6 +75,11 @@
     <servlet-mapping>
       <servlet-name>events</servlet-name>
       <url-pattern>/events</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>fullCalendarEvents</servlet-name>
+      <url-pattern>/fullCalendarEvents</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

@@ -1,0 +1,21 @@
+{
+	"school" : {
+		"color" : "lightblue",
+		"textColor" : "black"
+	},
+	"virginia" : {
+		"borderColor" : "red",
+		"backgroundColor" : "lightred",
+		"textColor" : "black"
+	},
+	"jon" : {
+		"color" : "gray",
+		"textColor" : "#ffffcc"
+	},
+	"kids" : {
+		"borderColor" : "#ccaa66",
+		"backgroundColor" : "#ffffaa",
+		"textColor" : "#66aa99"
+	}
+}
+
