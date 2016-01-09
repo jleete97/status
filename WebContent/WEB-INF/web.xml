@@ -7,13 +7,13 @@
 
     <context-param>
       <param-name>data-file</param-name>
-      <param-value>data/status-data.json</param-value>
+      <param-value>/tmp/status/status-data.json</param-value>
       <description>Location of status data file</description>
     </context-param>
 
     <context-param>
       <param-name>ui-config-file</param-name>
-      <param-value>data/ui-config.json</param-value>
+      <param-value>/tmp/status/ui-config.json</param-value>
       <description>Location of UI configuration file</description>
     </context-param>
 

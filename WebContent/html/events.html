@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="eventsApp">
+<head>
+	<title>Events</title>
+	<link rel="stylesheet" type="text/css" href="css/status.css">
+	<meta charset="utf-8">
+</head>
+
+<body ng-controller="MainCtrl as ctrl">
+
+Add event:
+<div>
+	What: <input type="text" ng-model="ctrl.event.what" required/>
+	<br>
+	When: <input type="text" ng-model="ctrl.event.when" type="date" required/>
+	<button ng-click="ctrl.add()">Add</button>
+	<button ng-click="ctrl.refresh()">Refresh</button>
+</div>
+
+Events:
+<table border="1" cellpadding="5" width="400">
+	<tr><th></th><th>Event</th><th>Date</th></tr>
+	<tr ng-repeat="event in ctrl.events">
+		<td><button ng-click="ctrl.delete(event.id)">X</button></td>
+		<td>{{event.what}}</td>
+		<td>{{event.when}}</td>
+	</tr>
+</table>
+
+<script src="js/jquery-1.11.3.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/angular-route.js"></script>
+<!-- script src="js/events.js"></script -->
+
+<script type="text/javascript">
+angular.module("eventsApp", ["ngRoute"])
+
+.controller("MainCtrl", ["$http", function($http) {
+	var self = this;
+	self.events = [ ];
+	var list = function() {
+		return $http.get("/status/events").then(function(response) {
+			self.events = response.data;
+		}, function(error) {
+			alert("Error: " + error);
+		});
+	};
+	list();
+	self.add = function() {
+		$http.post("save", self.event).then(list);
+	};
+	self.delete = function(id) {
+		$http.get("delete?id=" + id).then(list);
+	};
+	self.refresh = list;
+}]);
+</script>
+
+</body>
+</html>

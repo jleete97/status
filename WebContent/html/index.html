@@ -14,20 +14,79 @@
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-
+		
+		$("#refreshWeather").click(function() {
+			alert("Clicked!");
+			var zip = "22101";
+			var start = "2016-01-10T00:00:00";
+			var end = "2016-01-11T00:00:00";
+			
+			var url = "http://graphical.weather.gov/xml/sample_products/browser_interface/ndfdXMLclient.php?"
+					+ "zipCodeList=" + zip + "&product=time-series"
+					+ "&begin=" + start
+					+ "&end=" + end + "&maxt=maxt&mint=mint";
+			alert("Getting " + url);
+			
+			$.get(url,
+					function(responseXml) {
+						alert("Got response:\n" + responseXml);
+						
+						var min = 0, max = 100;
+						var units = "";
+						var xml = $.parseXml(responseXml);
+						
+						$(xml).find("temperature").each(function(temp) {
+							var value = $(this).find("value").text();
+							var type = $(this).attr("type");
+							units = $(this).find("units").text(); // might repeat
+							
+							if (type == "minimum") {
+								min = value;
+							} else if (type == "maximum") {
+								max = value;
+							}
+							
+							// output
+							$("#hi-temp-value").html(max);
+							$("#lo-temp-value").html(min);
+							$("#temp-units").html(units);
+						});
+			});
+		});
+		
+		$('#refreshCalendar').click(function() {
+			$.ajax({
+				type : "GET",
+				url  : "/status/events",
+				success : function(data) {
+					
+				}
+			})
+		});
 	    // page is now ready, initialize the calendar...
 
 	    $('#calendar').fullCalendar({
 	        // put your options and callbacks here
-	    })
+	    });
+	    
+	    
 
 	});
+	
+	var toEvent = function(serverEvent) {
+		var event = { };
+		event.id = serverEvent.id;
+		event.title = serverEvent.what;
+		event.allDay = true; //TODO change
+		event.start = serverEvent.when;
+	}
 	</script>
 </head>
 
 <body bgcolor="#aaaaff">
 
 <div id="today">
+	<button id="refreshCalendar">Refresh Calendar</button>
 	<h3>Today's Events:</h3>
 	<p>Ski off Mount Everest</p>
 	<p>Eat dinner</p>
@@ -35,7 +94,9 @@
 
 <div id="weather">
 	<h1>Sunny</h1>
-	<h1>72 Degrees</h1>
+	<h1><span id="hi-temp-value">--</span> Degrees <span id="temp-units"></span></h1>
+	<h1><span id="lo-temp-value">--</span></h1>
+	<button id="refreshWeather">Refresh</button>
 </div>
 
 <div id="calendar-container">

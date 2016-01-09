@@ -1,7 +1,10 @@
 package com.jonandvirginia.small.servlet;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +27,7 @@ public class UiConfigServlet extends HttpServlet {
 	
 	private Map<String, String> uiConfig = new HashMap<>();
 	
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String uiConfigParam = request.getParameter(REQUEST_PARAM);
 		System.out.println("GOT: " + uiConfigParam);
@@ -43,13 +47,14 @@ public class UiConfigServlet extends HttpServlet {
 	@Override
 	public void init() {
 		String uiConfigFilename = getInitParameter(UI_CONFIG_FILE_PARAM);
-		ServletContext context = this.getServletContext();
 		
 		try {
-			InputStream in = context.getResourceAsStream(uiConfigFilename);
+			File file = new File(uiConfigFilename);
+			InputStream in = new FileInputStream(file);
 			uiConfig = MapperUtil.MAPPER.readValue(in, HashMap.class);
 		} catch (Exception e) {
-			
+			System.out.println("Error reading config file.");
+			uiConfig = new HashMap<>();
 		}
 	}
 }
