@@ -19,7 +19,8 @@ public class FullCalendarTranslator {
 		fce.setStart(event.getStart());
 		fce.setEnd(event.getEnd());
 		fce.setAllDay(event.isAllDay());
-		
+
+		// Look up style based on event type.
 		FullCalendarStyle style = styles.get(event.getType());
 		if (style != null) {
 			fce.setColor(style.getColor());

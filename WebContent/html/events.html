@@ -12,18 +12,33 @@ Add event:
 <div>
 	What: <input type="text" ng-model="ctrl.event.what" required/>
 	<br>
-	When: <input type="text" ng-model="ctrl.event.when" type="date" required/>
+	Start: <input type="text" ng-model="ctrl.event.start" type="date" required/>
+	<br>
+	End: <input type="text" ng-model="ctrl.event.end" type="date"/>
+	<br>
+	All Day: <input type="checkbox" ng-model="ctrl.event.allDay"/>
+	<br>
+	Type:
+	<select ng-model="ctrl.event.type">
+		<option></option>
+		<option>virginia</option>
+		<option>jon</option>
+		<option>kids</option>
+		<option>school</option>
+	</select>
 	<button ng-click="ctrl.add()">Add</button>
 	<button ng-click="ctrl.refresh()">Refresh</button>
 </div>
 
 Events:
 <table border="1" cellpadding="5" width="400">
-	<tr><th></th><th>Event</th><th>Date</th></tr>
+	<tr><th></th><th>Event</th><th>Start</th><th>End</th><th>All Day?</th></tr>
 	<tr ng-repeat="event in ctrl.events">
 		<td><button ng-click="ctrl.delete()">X</button></td>
 		<td>{{event.what}}</td>
-		<td>{{event.when}}</td>
+		<td>{{event.start}}</td>
+		<td>{{event.end}}</td>
+		<td>{{event.allDay}}</td>
 	</tr>
 </table>
 
