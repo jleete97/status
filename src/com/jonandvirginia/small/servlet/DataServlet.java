@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,16 +15,11 @@ import com.jonandvirginia.small.util.MapperUtil;
 @SuppressWarnings("serial")
 public abstract class DataServlet extends HttpServlet {
 	
-	private static final String EVENT_FILE_CONTEXT_PARAM = "data-file";
+	public static final String DATA_DIR_PARAM = "data-dir";
+	private static final String EVENT_FILE_PARAM = "event-file";
 	
 	private String eventPath;
 	
-	
-	@Override
-	public void init() {
-		ServletContext context = this.getServletContext();
-		eventPath = context.getInitParameter(EVENT_FILE_CONTEXT_PARAM);
-	}
 	
 	protected List<Event> readEvents() {
 		List<Event> events = null;
@@ -57,5 +51,21 @@ public abstract class DataServlet extends HttpServlet {
 			events = Collections.<Event>emptyList();
 		}
 	}
-
+	
+	@Override
+	public void init() {
+		String dataDir = getServletContext().getInitParameter(DATA_DIR_PARAM);
+		String eventFile = getServletContext().getInitParameter(EVENT_FILE_PARAM);
+		eventPath = dataDir + "/" + eventFile;
+		
+		try {
+			File file = new File(eventPath);
+			if (!file.exists()) {
+				writeEvents(Collections.<Event>emptyList());
+			}
+		} catch (Exception e) {
+			System.out.println("Error checking file path: " + eventPath);
+			throw e; // Not recoverable, shut down.
+		}
+	}
 }

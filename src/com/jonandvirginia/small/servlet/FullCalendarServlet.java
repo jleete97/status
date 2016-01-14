@@ -33,8 +33,9 @@ public class FullCalendarServlet extends DataServlet {
 	@Override
 	public void init() {
 		super.init();
-		ServletContext context = this.getServletContext();
-		stylePath = context.getInitParameter(STYLE_FILE_CONTEXT_PARAM);
+		String dataDir = getServletContext().getInitParameter(DataServlet.DATA_DIR_PARAM);
+		String styleFile = getServletContext().getInitParameter(STYLE_FILE_CONTEXT_PARAM);
+		stylePath = dataDir + "/" + styleFile;
 		
 		Map<String, FullCalendarStyle> styles = null;
 		InputStream in = null;

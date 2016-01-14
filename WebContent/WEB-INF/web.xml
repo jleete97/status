@@ -6,21 +6,27 @@
     <description>Small household status display</description>
 
     <context-param>
-      <param-name>data-file</param-name>
-      <param-value>/home/pi/status/status-data.json</param-value>
-      <description>Location of status data file</description>
+      <param-name>data-dir</param-name>
+      <param-value>/var/local/status</param-value>
+      <description>Location of data files</description>
+    </context-param>
+
+    <context-param>
+      <param-name>event-file</param-name>
+      <param-value>events.json</param-value>
+      <description>Location of event file</description>
     </context-param>
 
     <context-param>
       <param-name>style-file</param-name>
-      <param-value>/home/pi/status/style-data.json</param-value>
-      <description>Location of event style file</description>
+      <param-value>event-styles.json</param-value>
+      <description>Event style file name</description>
     </context-param>
 
     <context-param>
       <param-name>ui-config-file</param-name>
-      <param-value>/home/pi/status/ui-config.json</param-value>
-      <description>Location of UI configuration file</description>
+      <param-value>ui-config.json</param-value>
+      <description>Name of UI configuration file</description>
     </context-param>
 
     <context-param>

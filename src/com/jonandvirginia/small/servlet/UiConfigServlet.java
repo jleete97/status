@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +20,7 @@ import com.jonandvirginia.small.util.MapperUtil;
 @SuppressWarnings("serial")
 public class UiConfigServlet extends HttpServlet {
 
-	private static final String UI_CONFIG_FILE_PARAM = "config-file";
+	private static final String UI_CONFIG_FILE_PARAM = "ui-config-file";
 	private static final String REQUEST_PARAM = "param";
 	
 	private Map<String, String> uiConfig = new HashMap<>();
@@ -46,14 +44,16 @@ public class UiConfigServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init() {
-		String uiConfigFilename = getInitParameter(UI_CONFIG_FILE_PARAM);
-		
+		String dataDir = getServletContext().getInitParameter(DataServlet.DATA_DIR_PARAM);
+		String uiConfigFilename = getServletContext().getInitParameter(UI_CONFIG_FILE_PARAM);
+		String uiConfigPath = dataDir + "/" + uiConfigFilename;
+
 		try {
-			File file = new File(uiConfigFilename);
+			File file = new File(uiConfigPath);
 			InputStream in = new FileInputStream(file);
 			uiConfig = MapperUtil.MAPPER.readValue(in, HashMap.class);
 		} catch (Exception e) {
-			System.out.println("Error reading config file.");
+			System.out.println("Error reading config file: " + uiConfigPath);
 			uiConfig = new HashMap<>();
 		}
 	}
