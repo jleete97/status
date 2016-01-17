@@ -1,4 +1,4 @@
-angular.module("eventsApp", ["ngRoute"])
+angular.module("statusApp", ["ngRoute"])
 
 .controller("MainCtrl", ["$http", function($http) {
 	var self = this;

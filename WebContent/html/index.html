@@ -20,9 +20,6 @@
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-//	    $('#calendar').fullCalendar({
-//	    	events : "/status/fullCalendarEvents"
-//	    });
 		setupCalendar(); // See calendar.js
 	});
 	</script>
@@ -31,7 +28,6 @@
 <body ng-controller="MainCtrl as ctrl">
 
 <div id="events">
-<button onclick="setupCalendar()">click me</button>
 	<tab title="Today">
 		<h3>Today's Events:</h3>
 		<p>Ski off Mount Everest</p>
@@ -85,10 +81,10 @@
 <div id="calendar-container">
 	<div id="calendar"></div>
 </div>
-<!-- 
+
 <script src="js/angular.js"></script>
 <script src="js/angular-route.js"></script>
 <script src="js/status-app.js"></script>
- -->
+
 </body>
 </html>
