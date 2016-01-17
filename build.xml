@@ -8,6 +8,7 @@
     <property name="src" value="src"/>
     <property name="build" value="build"/>
     <property name="classes" value="${build}/classes"/>
+	<property name="classpath-config" value="config"/>
     <property name="tools" value="tools"/>
 	<property name="web-base" value="WebContent"/>
 	<property name="web-inf" value="${web-base}/WEB-INF"/>
@@ -24,6 +25,11 @@
             <classpath refid="lib"/>
             <classpath refid="tools"/>
         </javac>
+    	
+    	<echo>Copying classpath configuration files from ${classpath-config} to ${classes}...</echo>
+    	<copy todir="${classes}">
+    		<fileset dir="${classpath-config}"/>
+    	</copy>
     </target>
 
     <target name="package" depends="compile">

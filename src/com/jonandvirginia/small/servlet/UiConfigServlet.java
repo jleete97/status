@@ -26,6 +26,7 @@ public class UiConfigServlet extends HttpServlet {
 	private Map<String, String> uiConfig = new HashMap<>();
 	
 	
+	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String uiConfigParam = request.getParameter(REQUEST_PARAM);
 		System.out.println("GOT: " + uiConfigParam);

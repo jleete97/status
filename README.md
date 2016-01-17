@@ -28,6 +28,7 @@ but light.
 
 1. Create a "/var/local/status" directory.
 2. Change the directory permissions so the "run-as" user can read/write to it.
-3. Build the application to a WAR file (status.war).
-4. Copy the WAR file to tomcat/webapps.
-5. If necessary, restart Tomcat.
+3. Create a "logs" directory under "/var/local/status", with similar permissions.
+4. Build the application to a WAR file (status.war).
+5. Copy the WAR file to tomcat/webapps.
+6. If necessary, restart Tomcat.

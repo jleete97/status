@@ -1,0 +1,35 @@
+div#today {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 25%;
+	height: 50%;
+	background-color: #ffcccc;
+	padding: 5px;
+}
+
+div#weather {
+	position: fixed;
+	top: 50%;
+	left: 0;
+	width: 25%;
+	height: 100%;
+	background-color: #aaffff;
+	padding: 5px;
+}
+
+div#calendar-container {
+	position: fixed;
+	top: 0;
+	left: 25%;
+	width: 75%;
+	height: 100%;
+	background-color: #eeee88;
+}
+
+.eventTitle {
+	font-size: +2;
+}
+.eventDate {
+	background-color: yellow;
+}

@@ -12,9 +12,9 @@ Add event:
 <div>
 	What: <input type="text" ng-model="ctrl.event.what" required/>
 	<br>
-	Start: <input type="text" datepicker ng-model="ctrl.event.start" required/>
+	Start: <input type="text" ng-model="ctrl.event.start" type="date" required/>
 	<br>
-	End: <input type="text" datepicker ng-model="ctrl.event.end"/>
+	End: <input type="text" ng-model="ctrl.event.end" type="date"/>
 	<br>
 	All Day: <input type="checkbox" ng-model="ctrl.event.allDay"/>
 	<br>
@@ -34,7 +34,7 @@ Events:
 <table border="1" cellpadding="5" width="400">
 	<tr><th></th><th>Event</th><th>Start</th><th>End</th><th>All Day?</th></tr>
 	<tr ng-repeat="event in ctrl.events">
-		<td><button ng-click="ctrl.delete(event)">X</button></td>
+		<td><button ng-click="ctrl.delete()">X</button></td>
 		<td>{{event.what}}</td>
 		<td>{{event.start}}</td>
 		<td>{{event.end}}</td>
@@ -61,32 +61,30 @@ angular.module("eventsApp", ["ngRoute"])
 		});
 	};
 	list();
-
 	self.add = function() {
 		$http.post("save", self.event).then(list);
 	};
-
-	self.delete = function(event) {
-		alert("ID = " + event.id);
-		var deleteId = event.id;
+/*
+	self.delete = function($scope) {
+		alert("ID = " + $scope.id);
 		$http.delete("/status/delete",
 		{
-			params : { "id" : deleteId }
+			params : { "id" : id }
 		}).then(list);
 	};
-
+*/
 	self.refresh = list;
+}])
+.controller("ItemCtrl", ["MainCtrl", "$http", function(MainCtrl, $http) {
+	var self = this;
+	self.delete = function($scope) {
+		alert("ID = " + $scope.id);
+		$http.delete("/status/delete",
+		{
+			params : { "id" : id }
+		}).then(MainCtrl.list);
+	};
 }]);
-//.controller("ItemCtrl", ["MainCtrl", "$http", function(MainCtrl, $http) {
-//	var self = this;
-//	self.delete = function($scope) {
-//		alert("ID = " + $scope.id);
-//		$http.delete(
-//			"/status/delete",
-//			{ params : { "id" : id } })
-//		.then(function() { alert("did it") } /* MainCtrl.list */);
-//	};
-//}]);
 </script>
 
 </body>

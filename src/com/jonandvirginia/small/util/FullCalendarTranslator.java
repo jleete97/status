@@ -14,7 +14,7 @@ public class FullCalendarTranslator {
 	public FullCalendarEvent toFullCalendarEvent(Event event) {
 		FullCalendarEvent fce = new FullCalendarEvent();
 		
-		fce.setId(event.getId());
+		fce.setId(Long.parseLong(event.getId(), 16));
 		fce.setTitle(event.getWhat());
 		fce.setStart(event.getStart());
 		fce.setEnd(event.getEnd());
@@ -35,7 +35,7 @@ public class FullCalendarTranslator {
 	public Event toEvent(FullCalendarEvent fce) {
 		Event event = new Event();
 		
-		event.setId(fce.getId());
+		event.setId(Long.toHexString(fce.getId()));
 		event.setWhat(fce.getTitle());
 		event.setStart(fce.getStart());
 		event.setEnd(fce.getEnd());

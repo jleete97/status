@@ -8,9 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.jonandvirginia.small.model.Event;
@@ -25,6 +26,7 @@ import com.jonandvirginia.small.util.MapperUtil;
 @SuppressWarnings("serial")
 public class FullCalendarServlet extends DataServlet {
 	
+	private static final Logger LOG = Logger.getLogger(FullCalendarServlet.class.getName());
 	private static final String STYLE_FILE_CONTEXT_PARAM = "style-file";
 	
 	private FullCalendarTranslator translator;
@@ -36,6 +38,7 @@ public class FullCalendarServlet extends DataServlet {
 		String dataDir = getServletContext().getInitParameter(DataServlet.DATA_DIR_PARAM);
 		String styleFile = getServletContext().getInitParameter(STYLE_FILE_CONTEXT_PARAM);
 		stylePath = dataDir + "/" + styleFile;
+		LOG.info("Style path: " + stylePath);
 		
 		Map<String, FullCalendarStyle> styles = null;
 		InputStream in = null;
@@ -63,8 +66,12 @@ public class FullCalendarServlet extends DataServlet {
 		List<FullCalendarEvent> fces = new ArrayList<>();
 		
 		for (Event event : events) {
-			FullCalendarEvent fce = translator.toFullCalendarEvent(event);
-			fces.add(fce);
+			try {
+				FullCalendarEvent fce = translator.toFullCalendarEvent(event);
+				fces.add(fce);
+			} catch (Exception e) {
+				LOG.error("Error translating event " + event.getId() + " to FCE", e);
+			}
 		}
 		
 		try {

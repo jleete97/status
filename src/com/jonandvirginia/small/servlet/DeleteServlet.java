@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.jonandvirginia.small.model.Event;
 
 /**
@@ -14,25 +16,28 @@ import com.jonandvirginia.small.model.Event;
 @SuppressWarnings("serial")
 public class DeleteServlet extends DataServlet {
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) {
-		String idStr = request.getParameter("id");
+	private static final Logger LOG = Logger.getLogger(DeleteServlet.class);
+	
+	@Override
+	public void doDelete(HttpServletRequest request, HttpServletResponse response) {
+		String id = request.getParameter("id");
+		LOG.debug("Deleting event ID " + id);
 		
 		try {
-			long id = Long.valueOf(idStr);
-
 			List<Event> events = this.readEvents();
 			Iterator<Event> it = events.iterator();
 			
 			while (it.hasNext()) {
-				if (it.next().getId() == id) {
+				if (id.equals(it.next().getId())) {
 					it.remove();
+					LOG.debug("Found and removed event with ID " + id);
 					break;
 				}
 			}
 			
 			this.writeEvents(events);
 		} catch (Exception e) {
-			
+			LOG.error("Error deleting event ID " + id, e);
 		}
 	}
 }
