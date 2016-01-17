@@ -67,7 +67,6 @@ angular.module("eventsApp", ["ngRoute"])
 	};
 
 	self.delete = function(event) {
-		alert("ID = " + event.id);
 		var deleteId = event.id;
 		$http.delete("/status/delete",
 		{
@@ -77,16 +76,6 @@ angular.module("eventsApp", ["ngRoute"])
 
 	self.refresh = list;
 }]);
-//.controller("ItemCtrl", ["MainCtrl", "$http", function(MainCtrl, $http) {
-//	var self = this;
-//	self.delete = function($scope) {
-//		alert("ID = " + $scope.id);
-//		$http.delete(
-//			"/status/delete",
-//			{ params : { "id" : id } })
-//		.then(function() { alert("did it") } /* MainCtrl.list */);
-//	};
-//}]);
 </script>
 
 </body>
