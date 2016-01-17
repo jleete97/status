@@ -1,5 +1,6 @@
 package com.jonandvirginia.small.util;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,8 @@ public class FullCalendarTranslator {
 	public FullCalendarEvent toFullCalendarEvent(Event event) {
 		FullCalendarEvent fce = new FullCalendarEvent();
 		
-		fce.setId(Long.parseLong(event.getId(), 16));
+		
+		fce.setId(new BigInteger(event.getId(), 16).longValue());
 		fce.setTitle(event.getWhat());
 		fce.setStart(event.getStart());
 		fce.setEnd(event.getEnd());
