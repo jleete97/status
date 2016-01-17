@@ -25,4 +25,32 @@ angular.module("statusApp", ["ngRoute"])
 	};
 
 	self.refresh = list;
+}])
+
+// Tab functionality courtesy of https://jsfiddle.net/jccrosby/eRGT8/
+
+.controller('TabsCtrl', ['$scope', function ($scope) {
+    $scope.tabs = [{
+            title: 'Today',
+            url: 'today.html'
+	    }, {
+	        title: 'Add',
+	        url: 'add.html'
+	    }, {
+	        title: 'Edit',
+	        url: 'edit.html'
+        }, {
+            title: 'Find',
+            url: 'find.html'
+    }];
+
+    $scope.currentTab = 'today.html';
+
+    $scope.onClickTab = function (tab) {
+        $scope.currentTab = tab.url;
+    }
+    
+    $scope.isActiveTab = function(tabUrl) {
+        return tabUrl == $scope.currentTab;
+    }
 }]);

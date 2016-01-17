@@ -4,15 +4,13 @@
 	<meta charset="UTF-8">
 	<title>Status</title>
 	<link rel="stylesheet" href="css/status.css"/>
+	<link rel="stylesheet" href="css/tabs.css"/>
 
 	<!-- FullCalendar -->
 	<link rel='stylesheet' href='js/fullcalendar/fullcalendar.css' />
 	<script src='js/fullcalendar/lib/jquery.min.js'></script>
 	<script src='js/fullcalendar/lib/moment.min.js'></script>
 	<script src='js/fullcalendar/fullcalendar.js'></script>
-
-	<!-- jQuery -->
-	<!-- script src="js/jquery-1.11.3.js"></script-->
 
 	<!-- Local interface building -->
 	<script src='js/weather.js'></script>
@@ -28,13 +26,26 @@
 <body ng-controller="MainCtrl as ctrl">
 
 <div id="events">
-	<tab title="Today">
-		<h3>Today's Events:</h3>
-		<p>Ski off Mount Everest</p>
-		<p>Eat dinner</p>
-	</tab>
-
-	<tab title="Add">
+    <div id="tabs" ng-controller="TabsCtrl">
+        <ul>
+            <li ng-repeat="tab in tabs" 
+                ng-class="{activeTab:isActiveTab(tab.url)}" 
+                ng-click="onClickTab(tab)">{{tab.title}}</li>
+        </ul>
+        <div id="currentTabView">
+            <div ng-include="currentTab"></div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="today.html">
+		<div id="viewToday">
+			<h3>Today's Events:</h3>
+			<p>Ski off Mount Everest</p>
+			<p>Eat dinner</p>
+		</div>
+	</script>
+	
+	<script type="text/ng-template" id="add.html">
+		<div id="viewAdd">
 		What: <input type="text" ng-model="ctrl.event.what" required/>
 		<br>
 		Start: <input type="text" datepicker ng-model="ctrl.event.start" required/>
@@ -52,13 +63,19 @@
 			<option>school</option>
 		</select>
 		<button ng-click="ctrl.add()">Add</button>
-	</tab>
-
-	<tab title="Edit">
-	</tab>
-
-	<tab title="Find">
-		<table border="1" cellpadding="2" width="100%">
+		</div>
+	</script>
+	
+	<script type="text/ng-template" id="edit.html">
+		<div id="viewEdit">
+			<h1>Edit</h1>
+			<p>Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu.</p>
+		</div>
+	</script>
+	
+	<script type="text/ng-template" id="find.html">
+		<div id="viewFind">
+		<table border="1" cellpadding="1" width="100%">
 			<tr><th></th><th>Event</th><th>Start</th><th>End</th><th>All Day?</th></tr>
 			<tr ng-repeat="event in ctrl.events">
 				<td><button ng-click="ctrl.delete(event)">X</button></td>
@@ -68,7 +85,8 @@
 				<td>{{event.allDay}}</td>
 			</tr>
 		</table>
-	</tab>
+		</div>
+	</script>
 </div>
 
 <div id="weather">
