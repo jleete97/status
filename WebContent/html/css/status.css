@@ -1,4 +1,8 @@
-div#today {
+body {
+	background-color: #aaaaff;
+}
+
+div#events {
 	position: fixed;
 	top: 0;
 	left: 0;

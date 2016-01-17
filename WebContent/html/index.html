@@ -1,89 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="statusApp">
 <head>
 	<meta charset="UTF-8">
 	<title>Status</title>
 	<link rel="stylesheet" href="css/status.css"/>
-	<script src="js/status.js" type="text/javascript"></script>
 
-	<!-- Calendar -->
+	<!-- FullCalendar -->
 	<link rel='stylesheet' href='js/fullcalendar/fullcalendar.css' />
 	<script src='js/fullcalendar/lib/jquery.min.js'></script>
 	<script src='js/fullcalendar/lib/moment.min.js'></script>
 	<script src='js/fullcalendar/fullcalendar.js'></script>
+
+	<!-- jQuery -->
+	<!-- script src="js/jquery-1.11.3.js"></script-->
+
+	<!-- Local interface building -->
+	<script src='js/weather.js'></script>
+	<script src='js/calendar.js'></script>
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-		
-		$("#refreshWeather").click(function() {
-			alert("Clicked!");
-			var zip = "22101";
-			var start = "2016-01-10T00:00:00";
-			var end = "2016-01-11T00:00:00";
-			
-			var url = "http://graphical.weather.gov/xml/sample_products/browser_interface/ndfdXMLclient.php?"
-					+ "zipCodeList=" + zip + "&product=time-series"
-					+ "&begin=" + start
-					+ "&end=" + end + "&maxt=maxt&mint=mint";
-			alert("Getting " + url);
-			
-			$.get(url,
-					function(responseXml) {
-						alert("Got response:\n" + responseXml);
-						
-						var min = 0, max = 100;
-						var units = "";
-						var xml = $.parseXml(responseXml);
-						
-						$(xml).find("temperature").each(function(temp) {
-							var value = $(this).find("value").text();
-							var type = $(this).attr("type");
-							units = $(this).find("units").text(); // might repeat
-							
-							if (type == "minimum") {
-								min = value;
-							} else if (type == "maximum") {
-								max = value;
-							}
-							
-							// output
-							$("#hi-temp-value").html(max);
-							$("#lo-temp-value").html(min);
-							$("#temp-units").html(units);
-						});
-			});
-		});
-		
-		$('#refreshCalendar').click(function() {
-			$.ajax({
-				type : "GET",
-				url  : "/status/events",
-				success : function(data) {
-					
-				}
-			})
-		});
-	    // page is now ready, initialize the calendar...
-
 	    $('#calendar').fullCalendar({
 	    	events : "/status/fullCalendarEvents"
 	    });
-	    
-	    window.setInterval(function() {
-	    	$('#calendar').fullCalendar("refetchEvents");
-	    }, 10000);
-
+//		setupCalendar(); // See calendar.js
 	});
 	</script>
 </head>
 
-<body bgcolor="#aaaaff">
+<body ng-controller="MainCtrl as ctrl">
 
-<div id="today">
-	<button id="refreshCalendar">Refresh Calendar</button>
-	<h3>Today's Events:</h3>
-	<p>Ski off Mount Everest</p>
-	<p>Eat dinner</p>
+<div id="events">
+<button onclick="setupCalendar()">click me</button>
+	<tab title="Today">
+		<h3>Today's Events:</h3>
+		<p>Ski off Mount Everest</p>
+		<p>Eat dinner</p>
+	</tab>
+
+	<tab title="Add">
+		What: <input type="text" ng-model="ctrl.event.what" required/>
+		<br>
+		Start: <input type="text" datepicker ng-model="ctrl.event.start" required/>
+		<br>
+		End: <input type="text" datepicker ng-model="ctrl.event.end"/>
+		<br>
+		All Day: <input type="checkbox" ng-model="ctrl.event.allDay"/>
+		<br>
+		Type:
+		<select ng-model="ctrl.event.type">
+			<option></option>
+			<option>virginia</option>
+			<option>jon</option>
+			<option>kids</option>
+			<option>school</option>
+		</select>
+		<button ng-click="ctrl.add()">Add</button>
+	</tab>
+
+	<tab title="Edit">
+	</tab>
+
+	<tab title="Find">
+		<table border="1" cellpadding="2" width="100%">
+			<tr><th></th><th>Event</th><th>Start</th><th>End</th><th>All Day?</th></tr>
+			<tr ng-repeat="event in ctrl.events">
+				<td><button ng-click="ctrl.delete(event)">X</button></td>
+				<td>{{event.what}}</td>
+				<td>{{event.start}}</td>
+				<td>{{event.end}}</td>
+				<td>{{event.allDay}}</td>
+			</tr>
+		</table>
+	</tab>
 </div>
 
 <div id="weather">
@@ -96,6 +85,10 @@
 <div id="calendar-container">
 	<div id="calendar"></div>
 </div>
-
+<!-- 
+<script src="js/angular.js"></script>
+<script src="js/angular-route.js"></script>
+<script src="js/status-app.js"></script>
+ -->
 </body>
 </html>
