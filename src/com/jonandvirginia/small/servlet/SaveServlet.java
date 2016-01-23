@@ -1,6 +1,7 @@
 package com.jonandvirginia.small.servlet;
 
 import java.io.BufferedReader;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -25,9 +26,6 @@ public class SaveServlet extends DataServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) {
-		List<Event> events = this.readEvents();
-		LOG.debug("Read " + events.size() + " from store");
-
 		StringBuffer sb = new StringBuffer();
 		String line = null;
 		try {
@@ -43,14 +41,45 @@ public class SaveServlet extends DataServlet {
 		String json = sb.toString();
 		LOG.debug("Read event JSON: '" + json + "'");
 		
-		TypeReference<Event> typeRef = new TypeReference<Event>() { };
+		saveEvent(json);
+	}
+
+	private void saveEvent(String json) {
 		try {
-			Event event = MapperUtil.MAPPER.readValue(json, typeRef);
-			event.setId(Long.toHexString(random.nextLong()));
-			events.add(event);
+			// Read saved Event from request
+			TypeReference<Event> typeRef = new TypeReference<Event>() { };
+			Event savedEvent = MapperUtil.MAPPER.readValue(json, typeRef);
+			
+			// Read event list
+			List<Event> events = this.readEvents();
+			LOG.debug("Read " + events.size() + " from store");
+			
+			// Remove if previously saved
+			if (savedEvent.getId() != null && savedEvent.getId().trim().length() > 0) {
+				LOG.debug("Looking for event '" + savedEvent.getId() + "' to remove...");
+				Iterator<Event> it = events.iterator();
+				while (it.hasNext()) {
+					Event event = it.next();
+					
+					if (savedEvent.getId().equals(event.getId())) {
+						LOG.debug("Removing event ID '" + savedEvent.getId() + "'");
+						it.remove();
+					}
+				}
+			} else {
+				String newId = Long.toHexString(random.nextLong());
+				LOG.debug("Setting new event ID '" + newId + "'");
+				savedEvent.setId(newId);
+			}
+			
+			// Add to list (again, if previously saved, and removed above)
+			events.add(savedEvent);
+			LOG.debug("Saved event ID '" + savedEvent.getId() + "'");
+			
+			// Re-persist list
 			this.writeEvents(events);
 		} catch (Exception e) {
-			LOG.error("Error translating JSON '" + json + "'", e);
+			LOG.error("Error saving event '" + json + "'", e);
 		}
 	}
 }

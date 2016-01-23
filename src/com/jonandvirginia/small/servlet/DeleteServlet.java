@@ -1,6 +1,5 @@
 package com.jonandvirginia.small.servlet;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.jonandvirginia.small.model.Event;
 
 /**
- * Delete an event.
+ * Delete an event. Delete is logical only.
  */
 @SuppressWarnings("serial")
 public class DeleteServlet extends DataServlet {
@@ -25,11 +24,10 @@ public class DeleteServlet extends DataServlet {
 		
 		try {
 			List<Event> events = this.readEvents();
-			Iterator<Event> it = events.iterator();
 			
-			while (it.hasNext()) {
-				if (id.equals(it.next().getId())) {
-					it.remove();
+			for (Event event : events) {
+				if (event.getId().equals(id)) {
+					event.setDeleted(true);
 					LOG.debug("Found and removed event with ID " + id);
 					break;
 				}

@@ -6,10 +6,9 @@ angular.module("acalApp", ["ngRoute"])
 	var self = this;
 	
 	self.lastUpdateTime = 0; // Timestamp of last update
-	
 	self.events = [ ]; // Events
-	
-	self.weeks = [ ];
+	self.weeks = [ ]; // Calendar data
+	self.event = { }; // Current event for editing
 	
 	initializeWeeks = function() {
 		var today = $window.today();
@@ -83,21 +82,23 @@ angular.module("acalApp", ["ngRoute"])
 				self.lastUpdateTime = response.data.updateTime;
 				receiveUpdate(response.data.events);
 			}, function(error) {
-				alert("error getting update: " + error);
+				alert("Error getting update: " + error);
 			});
 	};
 	
 	var list = function() {
-		return $http.get("/status/events").then(function(response) {
-			self.events = response.data;
-		}, function(error) {
-			alert("Error: " + error);
-		});
+		return $http.get("/status/events")
+			.then(function(response) {
+				self.lastUpdateTime = response.data.updateTime;
+				receiveUpdate(response.data.events);
+			}, function(error) {
+				alert("Error: " + error);
+			});
 	};
 	list();
 
-	self.add = function() {
-		$http.post("save", self.event).then(list);
+	self.save = function() {
+		$http.post("save", self.event).then(update);
 	};
 
 	self.remove = function(event) {
