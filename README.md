@@ -16,6 +16,9 @@ The service layer will be light: servlets, Jackson to help output
 JSON to the front end, and a file-based storage system. Not pretty,
 but light.
 
+Update: Starting to put a newer version in acal.html, which uses
+AngularJS to handle display and event management.
+
 ## Installation instructions
 
 ### Prerequisites:
