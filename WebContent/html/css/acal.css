@@ -1,0 +1,35 @@
+div#calendar-container table {
+	width: 100%;
+	overflow-y: auto;
+}
+
+tr.calendarheader th {
+	height: 2em;
+	background-color: #ffdd99;
+}
+
+tr.week td {
+	height: 8em;
+	vertical-align: top;
+}
+
+tr.week td.Sun, tr.week td.Sat {
+	background-color: #ddbb66;
+}
+
+#tr.week td.Mon, tr.week td.Tue, tr.week td.Wed, tr.week td.Thu, tr.week td.Fri {
+#	background-color: #ffeeaa;
+#}
+
+td.Jan, td.Mar, td.May,td.Jul, td.Sep, td.Nov {
+	background-color: #ffeeaa;
+}
+
+td.Feb, td.Apr, td.Jun,td.Aug, td.Oct, td.Dec {
+	background-color: #aaffee;
+}
+
+tr.week span.daytitle {
+	color: blue;
+	margin: 2px;
+}

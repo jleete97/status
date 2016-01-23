@@ -5,6 +5,8 @@ import java.util.Date;
 public class Event {
 
 	private String id;
+	private long updated; // timestamp
+	private boolean deleted;
 	private String what;
 	private Date start;
 	private Date end;
@@ -17,6 +19,20 @@ public class Event {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public long getUpdated() {
+		return updated;
+	}
+	public void setUpdated(long updated) {
+		this.updated = updated;
+	}
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	public String getWhat() {
@@ -46,6 +62,7 @@ public class Event {
 	public void setAllDay(boolean allDay) {
 		this.allDay = allDay;
 	}
+	
 	public String getType() {
 		return type;
 	}

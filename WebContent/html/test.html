@@ -1,0 +1,52 @@
+<html>
+<head>
+<script type="text/javascript">
+var DAY = 24 * 60 * 60 * 1000; // Day in msec
+
+function moo() {
+	return document.getElementById("input").value;
+}
+function show(s) {
+	document.getElementById("input").value = s;
+}
+function today() {
+	var x = new Date();
+	var s = x.toISOString();
+	var t = s.substring(0, 10);
+	return t;
+}
+function week(s) {
+	var ts = Date.parse(s); // long
+	var tsd = new Date(ts); // Date
+	var dow = tsd.getDay(); // 0-6
+	return offsetInDays(s, -dow);
+}
+function previous(s) {
+	return offsetInDays(s, -7);
+}
+function next(s) {
+	return offsetInDays(s, 7);
+}
+
+// Helper functions.
+
+function offsetInDays(s, offset) {
+	var timestamp = Date.parse(s); // long
+	var offsetTimestamp = timestamp + offset * DAY; // long
+	var offsetDate = new Date(offsetTimestamp); // Date
+	return offsetDate.toISOString().substring(0, 10);
+}
+</script>
+</head>
+
+<body>
+
+<input type="text" id="input"/>
+<button onclick="show(today())">Today</button>
+<button onclick="show(week(moo()))">Week</button>
+<button onclick="show(previous(moo()))">Previous</button>
+<button onclick="show(next(moo()))">Next</button>
+
+</body>
+
+</html>

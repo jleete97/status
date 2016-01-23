@@ -49,6 +49,7 @@ public class FullCalendarServlet extends DataServlet {
 			TypeReference<Map<String, FullCalendarStyle>> typeRef = new TypeReference<Map<String, FullCalendarStyle>>() { };
 			styles = MapperUtil.MAPPER.readValue(in, typeRef);
 		} catch (Exception e) {
+			LOG.error("Error processing styles for FCEs", e);
 			styles = new HashMap<>();
 		} finally {
 			if (in != null) {
@@ -64,6 +65,7 @@ public class FullCalendarServlet extends DataServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		List<Event> events = this.readEvents();
 		List<FullCalendarEvent> fces = new ArrayList<>();
+		LOG.debug("Converting " + (events == null ? "no" : events.size()) + " events to FCEs...");
 		
 		for (Event event : events) {
 			try {
@@ -75,11 +77,12 @@ public class FullCalendarServlet extends DataServlet {
 		}
 		
 		try {
+			LOG.debug("Writing " + fces.size() + " FCEs");
 			String json = MapperUtil.MAPPER.writeValueAsString(fces);
 			response.getWriter().println(json);
 			response.getWriter().flush();
 		} catch (Exception e) {
-			System.out.println("Error processing full calendar list: " + e.getMessage());
+			LOG.error("Error processing full calendar list", e);
 		}
 	}
 

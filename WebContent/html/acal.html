@@ -1,36 +1,23 @@
 <!DOCTYPE html>
-<html ng-app="statusApp">
+<html ng-app="acalApp">
 <head>
 	<meta charset="UTF-8">
 	<title>Status</title>
 	<link rel="stylesheet" href="css/status.css"/>
 	<link rel="stylesheet" href="css/tabs.css"/>
+	<link rel="stylesheet" href="css/acal.css"/>
 
-	<!-- FullCalendar -->
-	<link rel='stylesheet' href='js/fullcalendar/fullcalendar.css' />
-	<script src='js/fullcalendar/lib/jquery.min.js'></script>
-	<script src='js/fullcalendar/lib/moment.min.js'></script>
-	<script src='js/fullcalendar/fullcalendar.js'></script>
+	<script src="js/jquery-1.11.3.js"></script>
+	<script src="js/angular.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/status-app.js"></script>
 
 	<!-- Local interface building -->
-	<script src='js/weather.js'></script>
-	<script src='js/calendar.js'></script>
+	<script src='js/acal.js'></script>
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-		setupCalendar(); // See calendar.js
-	});
-	</script>
-	<script type='text/javascript'>
-	$(document).ready(function() {
-	    $('#calendar').fullCalendar({
-	        googleCalendarApiKey: '887345215199-vtgau9c31a7t5q3s9snavrpig0mj5op4.apps.googleusercontent.com',
-	        eventSources: [
-	            {
-	                googleCalendarId: '8fa5mcgbfuo4698iku9cbiu87o@group.calendar.google.com'
-	            }
-	        ]
-	    });
+//		setupCalendar(); // See calendar.js
 	});
 	</script>
 </head>
@@ -109,12 +96,22 @@
 </div>
 
 <div id="calendar-container">
-	<div id="calendar"></div>
+	<table>
+		<tr class="calendarheader">
+			<th>Sunday</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th>
+			<th>Thursday</th><th>Friday</th><th>Saturday</th>
+		</tr>
+		<tr class="week" ng-repeat="week in ctrl.weeks">
+			<td ng-repeat="day in week.days" class="day {{day.dow}} {{day.month}}">
+				<span class="daytitle">{{day.month}} {{day.dom}}</span>
+				
+				<p ng-repeat="event in day.events" class="dayevent">
+				{{event.what}}
+				</p>
+			</td>
+		</tr>
+	</table>
 </div>
-
-<script src="js/angular.js"></script>
-<script src="js/angular-route.js"></script>
-<script src="js/status-app.js"></script>
 
 </body>
 </html>
