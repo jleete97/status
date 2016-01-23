@@ -59,7 +59,7 @@ angular.module("acalApp", ["ngRoute"])
 			
 			if (week.id == wstr) {
 				for (var j = 0; j < week.days.length; j++) {
-					var day = week.days[i];
+					var day = week.days[j];
 					
 					if (day.id == dstr) {
 						return day;
