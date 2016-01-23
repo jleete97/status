@@ -54,6 +54,7 @@ public class ListServlet extends DataServlet {
 		
 		try {
 			String json = MapperUtil.MAPPER.writeValueAsString(queryResponse);
+			response.setContentType("application/json");
 			response.getWriter().println(json);
 			response.getWriter().flush();
 		} catch (Exception e) {

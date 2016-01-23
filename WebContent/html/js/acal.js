@@ -5,12 +5,14 @@ angular.module("acalApp", ["ngRoute"])
 .controller("MainCtrl", ["$http", "$window", function($http, $window) {
 	var self = this;
 	
+	// Set up controller data structures
+	
 	self.lastUpdateTime = 0; // Timestamp of last update
 	self.events = [ ]; // Events
 	self.weeks = [ ]; // Calendar data
 	self.event = { }; // Current event for editing
 	
-	initializeWeeks = function() {
+	var initializeCalendarDisplay = function() {
 		var today = $window.today();
 		var thisWeek = $window.weekStart(today);
 		var startWeek = $window.offsetInDays(thisWeek, -7);
@@ -22,8 +24,11 @@ angular.module("acalApp", ["ngRoute"])
 			self.weeks.push($window.buildWeek(w));
 		}
 	};
-	initializeWeeks();
+	initializeCalendarDisplay();
 	
+	///////// Event handling /////////
+	
+	// Remove an event from the specified list/array, given the ID.
 	var removeEventFromArrayById = function(eventList, id) {
 		for (var i = 0; i < eventList.length; i++) {
 			if (eventList[i].id == event.id) {
@@ -33,16 +38,55 @@ angular.module("acalApp", ["ngRoute"])
 		}
 	}
 	
+	// Find an event in the list/array, by ID.
+	var findEvent = function(eventList, id) {
+		for (var i = 0; i < eventList.length; i++) {
+			if (eventList[i].id == id) {
+				return eventList[i];
+			}
+		}
+		
+		return null;
+	}
+	
+	// Find a specific day in the calendar
+	var findDay = function(dstr) {
+		//TODO optimize -- calculate, not search
+		var wstr = $window.weekStart(dstr);
+		
+		for (var i = 0; i < self.weeks.length; i++) {
+			var week = self.weeks[i];
+			
+			if (week.id == wstr) {
+				for (var j = 0; j < week.days.length; j++) {
+					var day = week.days[i];
+					
+					if (day.id == dstr) {
+						return day;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	// Add an event to the calendar and internal list of events
 	var addEvent = function(event) {
 		// Add to list of events
 		self.events.push(event);
 		
 		// Add to calendar
-		for (var d = event.start; d <= event.end; d = $window.offsetInDays(d, 1)) {
-			d.events.push(event);
+		for (var dstr = event.start; dstr <= event.end; dstr = $window.offsetInDays(dstr, 1)) {
+			var day = findDay(dstr);
+			
+			if (is(day)) {
+				day.events.push(event);
+			}
 		}
 	};
 	
+	// Remove an event from the calendar and internal list of events
 	var removeEvent = function(event) {
 		// Remove from list of events
 		removeEventFromArrayById(self.events, event.id);
@@ -65,51 +109,47 @@ angular.module("acalApp", ["ngRoute"])
 		}
 	}
 	
-	// Callback function for querying server for update since a given time
-	var receiveUpdate = function(data) {
-		for (var event in data) {
-			var oldEvent = findEvent(event.id);
-			if (oldEvent != null) {
+	// Process new events from server
+	var processUpdatedEvents = function(updatedEvents) {
+		for (var i = 0; i < updatedEvents.length; i++) {
+			var event = updatedEvents[i];
+			var oldEvent = findEvent(self.events, event.id);
+			
+			if ($window.not(oldEvent)) {
+				addEvent(event);
+			} else {
 				updateEvent(oldEvent, event);
 			}
 		}
 	};
 	
-	// Query the server for an update
+	// Public controller API
+
+	// Query the server for events updated since self.lastUpdateTime
 	self.update = function() {
 		$http.get("/status/events?time=" + self.lastUpdateTime)
 			.then(function(response) {
 				self.lastUpdateTime = response.data.updateTime;
-				receiveUpdate(response.data.events);
+				processUpdatedEvents(response.data.events);
 			}, function(error) {
 				alert("Error getting update: " + error);
 			});
 	};
 	
-	var list = function() {
-		return $http.get("/status/events")
-			.then(function(response) {
-				self.lastUpdateTime = response.data.updateTime;
-				receiveUpdate(response.data.events);
-			}, function(error) {
-				alert("Error: " + error);
-			});
-	};
-	list();
-
+	// Save the event in self.event (manipulated in page)
 	self.save = function() {
 		$http.post("save", self.event).then(update);
 	};
-
-	self.remove = function(event) {
-		var deleteId = event.id;
+	
+	// Delete the specified event
+	self.remove = function(deleteId) {
 		$http.remove("/status/delete",
 		{
 			params : { "id" : deleteId }
 		}).then(list);
 	};
-
-	self.refresh = list;
+	
+	self.update();
 }])
 
 .controller('TabsCtrl', ['$scope', function ($scope) {
@@ -202,6 +242,17 @@ function buildWeek(s) {
 	return week;
 }
 
+// Return true if parameter is "nullish"
+function not(x) {
+	return (typeof x === 'undefined')
+		|| (x == null)
+		|| !x;
+}
+
+// Return true if parameter is not "nullish" -- opposite of not()
+function is(x) {
+	return !not(x);
+}
 /*
 self.weeks = [ // Calendar data
   {

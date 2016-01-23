@@ -47,10 +47,14 @@ public class Event {
 	}
 	public void setStart(Date start) {
 		this.start = start;
+		if ((start != null)
+				&& ((this.end == null) || this.end.compareTo(start) < 0)) {
+			this.end = start;
+		}
 	}
 	
 	public Date getEnd() {
-		return end;
+		return (end == null) ? start : end;
 	}
 	public void setEnd(Date end) {
 		this.end = end;
