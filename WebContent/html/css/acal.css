@@ -11,6 +11,7 @@ tr.calendarheader th {
 tr.week td {
 	height: 8em;
 	vertical-align: top;
+	width: 14%;
 }
 
 tr.week td.Sun, tr.week td.Sat {
