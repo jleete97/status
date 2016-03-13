@@ -102,9 +102,28 @@
 </div>
 
 <div id="weather">
-	<h1>Sunny</h1>
-	<h1><span id="hi-temp-value">--</span> Degrees <span id="temp-units"></span></h1>
-	<h1><span id="lo-temp-value">--</span></h1>
+	<table>
+		<tr><td colspan="2"><span id="weatherWhere"/></td></tr>
+		<tr>
+			<td>
+				<img id="currentConditionsIcon"/>
+				<span id="currentConditions"/>
+			</td>
+			<td><span id="currentTemp">--</span></td>
+		</tr>
+		<tr>
+			<td><h2>Forecast</h2></td>
+			<td align="right">
+				<span id="forecastConditions"> </span>
+				<img id="forecastIcon"></img>
+			</td>
+		</tr>
+		<tr>
+			<td>High: <span id="forecastHigh">--</span></td>
+			<td>Low: <span id="forecastLow">--</span></td>
+		</tr>
+		
+	</table>
 	<button id="refreshWeather">Refresh</button>
 </div>
 

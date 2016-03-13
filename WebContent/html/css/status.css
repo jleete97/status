@@ -37,3 +37,7 @@ div#calendar-container {
 .eventDate {
 	background-color: yellow;
 }
+
+div#weather table {
+	width: 100%;
+}
