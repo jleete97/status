@@ -41,3 +41,7 @@ div#calendar-container {
 div#weather table {
 	width: 100%;
 }
+
+div#weather table tr td {
+	text-align: center;
+}

@@ -48,7 +48,7 @@ $(document).ready(function() {
 		$("#currentTemp").text(obs.temp_f + " F");
 		$("#currentConditions").text(obs.weather);
 		$("#currentFeelsLike").text("Feels like " + obs.feelslike_f + " F");
-		$("#currentGeneral").text("Wind: " + obs.wind_string);
+//		$("#currentGeneral").text("Wind: " + obs.wind_string);
 	};
 	
 	var updateForecast = function(data) {
@@ -78,4 +78,10 @@ $(document).ready(function() {
 	
 	$("#refreshNow").click(getWundergroundWeather);
 	$("#refreshForecast").click(getWundergroundWeather);
+	
+	// Get weather every ten minutes, and start now.
+	var weatherRefreshInterval = 10 * 60 * 1000;
+    window.setInterval(getWundergroundWeather, weatherRefreshInterval);
+
+    getWundergroundWeather();
 });
