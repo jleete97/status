@@ -103,28 +103,40 @@
 
 <div id="weather">
 	<table>
-		<tr><td colspan="2"><span id="weatherWhere"/></td></tr>
+		<tr><td colspan="3"><span id="weatherWhere"> </span></td></tr>
+		
 		<tr>
-			<td>
-				<img id="currentConditionsIcon"/>
-				<span id="currentConditions"/>
-			</td>
-			<td><span id="currentTemp">--</span></td>
+			<th rowspan="3"><h2 id="refreshNow">Now</h2></th>
+			
+			<td><img id="currentConditionsIcon"/></td>
+			<td><span id="currentTemp">-- F</span></td>
 		</tr>
 		<tr>
-			<td><h2>Forecast</h2></td>
-			<td align="right">
-				<span id="forecastConditions"> </span>
+			<td><span id="currentConditions"> </span></td>
+			<td><span id="currentFeelsLike">--</span></td>
+		</tr>
+		<tr>
+			<td colspan="2"><span id="currentGeneral"> </span></td>
+		</tr>
+		
+		<tr><td height="10px" colspan="3"></td></tr>
+
+		<tr>
+			<th rowspan="3"><h2 id="refreshForecast">Forecast</h2></th>
+			
+			<td>
 				<img id="forecastIcon"></img>
 			</td>
+			<td>High: <span id="forecastHigh">--</span></td>
 		</tr>
 		<tr>
-			<td>High: <span id="forecastHigh">--</span></td>
+			<td align="right">
+				<span id="forecastConditions"> </span>
+			</td>
 			<td>Low: <span id="forecastLow">--</span></td>
 		</tr>
 		
 	</table>
-	<button id="refreshWeather">Refresh</button>
 </div>
 
 <div id="calendar-container">

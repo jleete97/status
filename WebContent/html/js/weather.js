@@ -45,8 +45,10 @@ $(document).ready(function() {
 		
 		$("#weatherWhere").text(obs.full);
 		$("#currentConditionsIcon").attr("src", obs.icon_url);
-		$("#currentConditions").text(obs.weather);
 		$("#currentTemp").text(obs.temp_f + " F");
+		$("#currentConditions").text(obs.weather);
+		$("#currentFeelsLike").text("Feels like " + obs.feelslike_f + " F");
+		$("#currentGeneral").text("Wind: " + obs.wind_string);
 	};
 	
 	var updateForecast = function(data) {
@@ -74,5 +76,6 @@ $(document).ready(function() {
 		return base + "/" + key + "/" + type + "/q/" + zip + ".json";
 	}
 	
-	$("#refreshWeather").click(getWundergroundWeather);
+	$("#refreshNow").click(getWundergroundWeather);
+	$("#refreshForecast").click(getWundergroundWeather);
 });
