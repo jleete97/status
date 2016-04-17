@@ -77,7 +77,7 @@
 		<table border="1" cellpadding="1" width="100%">
 			<tr><th></th><th>Event</th><th>Start</th><th>End</th><th>All Day?</th></tr>
 			<tr ng-repeat="event in ctrl.events">
-				<td><button ng-click="ctrl.delete(event.id)">X</button></td>
+				<td><button ng-click="ctrl.remove(event.id)">X</button></td>
 				<td>{{event.what}}</td>
 				<td>{{event.start}}</td>
 				<td>{{event.end}}</td>
@@ -106,7 +106,7 @@
 				<span class="daytitle">{{day.month}} {{day.dom}}</span>
 				
 				<p ng-repeat="event in day.events" class="dayevent">
-				{{event.what}}  <span class="delete" ng-click="ctrl.remove(event.id)">X</span>
+				{{event.what}}  <span class="remove" ng-click="ctrl.remove(event.id)">X</span>
 				</p>
 			</td>
 		</tr>

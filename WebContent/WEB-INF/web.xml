@@ -59,9 +59,9 @@
     </servlet>
 
     <servlet>
-      <servlet-name>deleteEvent</servlet-name>
-      <servlet-class>com.jonandvirginia.small.servlet.DeleteServlet</servlet-class>
-      <description>delete an event</description>
+      <servlet-name>removeEvent</servlet-name>
+      <servlet-class>com.jonandvirginia.small.servlet.RemoveServlet</servlet-class>
+      <description>remove an event</description>
       <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -94,8 +94,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-      <servlet-name>deleteEvent</servlet-name>
-      <url-pattern>/delete</url-pattern>
+      <servlet-name>removeEvent</servlet-name>
+      <url-pattern>/remove</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

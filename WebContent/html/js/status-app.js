@@ -16,11 +16,11 @@ angular.module("statusApp", ["ngRoute"])
 		$http.post("save", self.event).then(list);
 	};
 
-	self.delete = function(event) {
-		var deleteId = event.id;
-		$http.delete("/status/delete",
+	self.remove = function(event) {
+		var removeId = event.id;
+		$http.delete("/status/remove",
 		{
-			params : { "id" : deleteId }
+			params : { "id" : removeId }
 		}).then(list);
 	};
 

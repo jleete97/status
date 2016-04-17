@@ -35,7 +35,7 @@ tr.week span.daytitle {
 	margin: 2px;
 }
 
-span.delete {
+span.remove {
 	background-color: red;
 	font-weight: bold;
 	margin: 3px;

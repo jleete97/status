@@ -90,7 +90,7 @@
 		<table border="1" cellpadding="1" width="100%">
 			<tr><th></th><th>Event</th><th>Start</th><th>End</th><th>All Day?</th></tr>
 			<tr ng-repeat="event in ctrl.events">
-				<td><button ng-click="ctrl.delete(event)">X</button></td>
+				<td><button ng-click="ctrl.remove(event)">X</button></td>
 				<td>{{event.what}}</td>
 				<td>{{event.start}}</td>
 				<td>{{event.end}}</td>

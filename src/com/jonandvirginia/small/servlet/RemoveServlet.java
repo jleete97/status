@@ -10,12 +10,12 @@ import org.apache.log4j.Logger;
 import com.jonandvirginia.small.model.Event;
 
 /**
- * Delete an event. Delete is logical only.
+ *  Remove (delete) an event. Remove is a logical delete only.
  */
 @SuppressWarnings("serial")
-public class DeleteServlet extends DataServlet {
+public class RemoveServlet extends DataServlet {
 
-	private static final Logger LOG = Logger.getLogger(DeleteServlet.class);
+	private static final Logger LOG = Logger.getLogger(RemoveServlet.class);
 	
 	@Override
 	public void doDelete(HttpServletRequest request, HttpServletResponse response) {
@@ -27,7 +27,7 @@ public class DeleteServlet extends DataServlet {
 			
 			for (Event event : events) {
 				if (event.getId().equals(id)) {
-					event.setDeleted(true);
+					event.setRemoved(true);
 					LOG.debug("Found and removed event with ID " + id);
 					break;
 				}

@@ -34,7 +34,7 @@ Events:
 <table border="1" cellpadding="5" width="400">
 	<tr><th></th><th>Event</th><th>Start</th><th>End</th><th>All Day?</th></tr>
 	<tr ng-repeat="event in ctrl.events">
-		<td><button ng-click="ctrl.delete(event)">X</button></td>
+		<td><button ng-click="ctrl.remove(event)">X</button></td>
 		<td>{{event.what}}</td>
 		<td>{{event.start}}</td>
 		<td>{{event.end}}</td>
@@ -52,10 +52,12 @@ angular.module("eventsApp", ["ngRoute"])
 
 .controller("MainCtrl", ["$http", function($http) {
 	var self = this;
+
 	self.events = [ ];
+
 	var list = function() {
 		return $http.get("/status/events").then(function(response) {
-			self.events = response.data;
+			self.events = response.data.events;
 		}, function(error) {
 			alert("Error: " + error);
 		});
@@ -66,11 +68,11 @@ angular.module("eventsApp", ["ngRoute"])
 		$http.post("save", self.event).then(list);
 	};
 
-	self.delete = function(event) {
-		var deleteId = event.id;
-		$http.delete("/status/delete",
+	self.remove = function(event) {
+		var removeId = event.id;
+		$http.delete("/status/remove",
 		{
-			params : { "id" : deleteId }
+			params : { "id" : removeId }
 		}).then(list);
 	};
 

@@ -6,7 +6,7 @@ public class Event {
 
 	private String id;
 	private long updated; // timestamp
-	private boolean deleted;
+	private boolean removed;
 	private String what;
 	private Date start;
 	private Date end;
@@ -28,11 +28,11 @@ public class Event {
 		this.updated = updated;
 	}
 	
-	public boolean isDeleted() {
-		return deleted;
+	public boolean isRemoved() {
+		return removed;
 	}
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+	public void setRemoved(boolean removed) {
+		this.removed = removed;
 	}
 	
 	public String getWhat() {

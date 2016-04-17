@@ -141,11 +141,11 @@ angular.module("acalApp", ["ngRoute"])
 		$http.post("save", self.event).then(update);
 	};
 	
-	// Delete the specified event
-	self.remove = function(deleteId) {
-		$http.remove("/status/delete",
+	// Remove (logically delete) the specified event
+	self.remove = function(removeId) {
+		$http.delete("/status/remove",
 		{
-			params : { "id" : deleteId }
+			params : { "id" : removeId }
 		}).then(list);
 	};
 	
