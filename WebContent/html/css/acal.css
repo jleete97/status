@@ -40,3 +40,29 @@ span.remove {
 	font-weight: bold;
 	margin: 3px;
 }
+
+span.dayaddevent {
+	float: right;
+	margin: 2px 2px 0px 0px;
+}
+
+span.dayaddevent a {
+	color: #00ffdd;
+	font-weight: bold;
+}
+
+#updateStatus {
+	float: right;
+}
+
+#updateStatus.success {
+	background-color: green;
+}
+
+#updateStatus.error {
+	background-color: green;
+}
+
+#updateStatus.error {
+	background-color: #666666;
+}

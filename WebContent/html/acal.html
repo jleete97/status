@@ -14,6 +14,8 @@
 
 	<!-- Local interface building -->
 	<script src='js/acal.js'></script>
+	<script src='js/weather.js'></script>
+	<!-- script src='js/calendar.js'></script -->
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
@@ -25,6 +27,11 @@
 <body ng-controller="MainCtrl as ctrl">
 
 <div id="events">
+	<div id="updateStatus">
+		Updates:
+		<span id="statusDisplay" style="{{ctrl.updateStatus}}">XXXXX</span>
+	</div>
+
     <div id="tabs" ng-controller="TabsCtrl">
         <ul>
             <li ng-repeat="tab in tabs" 
@@ -89,14 +96,42 @@
 </div>
 
 <div id="weather">
-	<h1>Sunny</h1>
-	<h1><span id="hi-temp-value">--</span> Degrees <span id="temp-units"></span></h1>
-	<h1><span id="lo-temp-value">--</span></h1>
-	<button id="refreshWeather">Refresh</button>
+	<table>
+		<tr><td colspan="3"><span id="weatherWhere"> </span></td></tr>
+		
+		<tr>
+			<th rowspan="3" align="left"><h2 id="refreshNow">Now</h2></th>
+			
+			<td><img id="currentConditionsIcon"/></td>
+			<td><span id="currentTemp">-- F</span></td>
+		</tr>
+		<tr>
+			<td><span id="currentConditions"> </span></td>
+			<td><span id="currentFeelsLike">--</span></td>
+		</tr>
+		<tr>
+			<td colspan="2"><span id="currentGeneral"> </span></td>
+		</tr>
+		
+		<tr><td height="10px" colspan="3"></td></tr>
+
+		<tr>
+			<th rowspan="3" align="left"><h2 id="refreshForecast">Forecast</h2></th>
+			
+			<td><img id="forecastIcon"></img></td>
+			<td>High: <span id="forecastHigh">--</span></td>
+		</tr>
+		<tr>
+			<td><span id="forecastConditions"> </span></td>
+			<td>Low: <span id="forecastLow">--</span></td>
+		</tr>
+		
+	</table>
 </div>
 
 <div id="calendar-container">
 	<table>
+		<tr><td colspan="7">{{ctrl.tick}}</td></tr>
 		<tr class="calendarheader">
 			<th>Sunday</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th>
 			<th>Thursday</th><th>Friday</th><th>Saturday</th>
@@ -104,6 +139,9 @@
 		<tr class="week" ng-repeat="week in ctrl.weeks">
 			<td ng-repeat="day in week.days" class="day {{day.dow}} {{day.month}}">
 				<span class="daytitle">{{day.month}} {{day.dom}}</span>
+				<span class="dayaddevent" ng-click="ctrl.addEventToDay('{{day.id}}')">+</span>
+				<span ng-click="alert('ok!')">ok</span>
+				
 				
 				<p ng-repeat="event in day.events" class="dayevent">
 				{{event.what}}  <span class="remove" ng-click="ctrl.remove(event.id)">X</span>

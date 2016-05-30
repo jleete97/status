@@ -16,7 +16,7 @@
     <property name="html" value="${web-base}/html"/>
 	<property name="war.dir" value="${build}/war"/>
 	<!-- env.TOMCAT should be something like ".../apache-tomcat-8.0.18". -->
-	<property name="deploy.dir" value="${env.TOMCAT}/webapps"/>
+	<property name="deploy.dir" value="${TOMCAT}/webapps"/>
 
     <target name="compile" depends="setup">
     	<echo>==== COMPILE ====</echo>

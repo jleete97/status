@@ -2,7 +2,7 @@
 
 angular.module("acalApp", ["ngRoute"])
 
-.controller("MainCtrl", ["$http", "$window", function($http, $window) {
+.controller("MainCtrl", ["$scope", "$rootScope", "$http", "$window", function($scope, $rootScope, $http, $window) {
 	var self = this;
 	
 	// Set up controller data structures
@@ -13,6 +13,7 @@ angular.module("acalApp", ["ngRoute"])
 	self.event = { }; // Current event for editing
 	
 	var initializeCalendarDisplay = function() {
+		var weeks = [ ];
 		var today = $window.today();
 		var thisWeek = $window.weekStart(today);
 		var startWeek = $window.offsetInDays(thisWeek, -7);
@@ -21,10 +22,17 @@ angular.module("acalApp", ["ngRoute"])
 			var b = (w == endWeek);
 			var l = (w < endWeek);
 //			alert("w = " + w + ", end = " + endWeek + ", b = " + b + ", l = " + l + ".");
-			self.weeks.push($window.buildWeek(w));
+			var wkData = $window.buildWeek(w);
+			weeks.push(wkData);
 		}
+		
+		return weeks;
 	};
-	initializeCalendarDisplay();
+	self.weeks = initializeCalendarDisplay();
+	
+	self.addEventToDay = function(dayId) {
+		$rootScope.$broadcast("addEventToDay", dayId);
+	}
 	
 	///////// Event handling /////////
 	
@@ -131,10 +139,18 @@ angular.module("acalApp", ["ngRoute"])
 			.then(function(response) {
 				self.lastUpdateTime = response.data.updateTime;
 				processUpdatedEvents(response.data.events);
+				$rootScope.$broadcast("updateStatus", "success");
 			}, function(error) {
-				alert("Error getting update: " + error);
+				$rootScope.$broadcast("updateStatus", "error");
 			});
+		self.tick = Date.now();
 	};
+	
+	$scope.$on("updateStatus", function(event, status) {
+		self.updateStatus = status;
+	});
+	
+	self.updateStatus = "none";
 	
 	// Save the event in self.event (manipulated in page)
 	self.save = function() {
@@ -149,7 +165,12 @@ angular.module("acalApp", ["ngRoute"])
 		}).then(list);
 	};
 	
-	self.update();
+	// Start periodic updates
+	self.startUpdates = function(updateInterval) {
+		return $window.setInterval(self.update, updateInterval);
+	};
+	self.updateTimer = self.startUpdates(5000);
+	self.tick = 0;
 }])
 
 .controller('TabsCtrl', ['$scope', function ($scope) {
@@ -175,8 +196,29 @@ angular.module("acalApp", ["ngRoute"])
     
     $scope.isActiveTab = function(tabUrl) {
         return tabUrl == $scope.currentTab;
-    }
-}]);
+    };
+    
+    $scope.$on("addEventToDay", function(event, dayId) {
+    	alert("Got day ID '" + dayId + "'");
+    });
+}])
+
+.factory('eventService', function($rootScope) {
+    var eventService = {};
+    
+    eventService.message = '';
+
+    eventService.prepForBroadcast = function(msg) {
+        this.message = msg;
+        this.broadcastItem();
+    };
+
+    eventService.broadcastItem = function() {
+        $rootScope.$broadcast('handleBroadcast');
+    };
+
+    return eventService;
+});
 
 // Date helper functions
 // Standard format = ISO 8601 = YYYY-MM-DD
@@ -210,10 +252,14 @@ function nextWeek(s) {
 
 // Return date offset by some number of days.
 function offsetInDays(s, offset) {
-	var timestamp = Date.parse(s); // long
-	var offsetTimestamp = timestamp + offset * DAY; // long
-	var offsetDate = new Date(offsetTimestamp); // Date
-	return offsetDate.toISOString().substring(0, 10);
+	try {
+		var timestamp = Date.parse(s); // long
+		var offsetTimestamp = timestamp + offset * DAY; // long
+		var offsetDate = new Date(offsetTimestamp); // Date
+		return offsetDate.toISOString().substring(0, 10);
+	} catch (e) {
+		alert("error with '" + s + "', offset " + offset + ": " + e);
+	}
 }
 
 // Build the data structure for a week:
@@ -253,6 +299,7 @@ function not(x) {
 function is(x) {
 	return !not(x);
 }
+
 /*
 self.weeks = [ // Calendar data
   {

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.servlet.http.HttpServlet;
 
@@ -22,6 +23,12 @@ public abstract class DataServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(DataServlet.class.getName());
 	private static final String EVENT_FILE_PARAM = "event-file";
 	
+	private static final Predicate<Event> REMOVED = new Predicate<Event>() {
+		public boolean test(Event event) {
+			return ((Event) event).isRemoved();
+		}
+	};
+	
 	private String eventPath;
 	
 	
@@ -35,6 +42,8 @@ public abstract class DataServlet extends HttpServlet {
 			in = new FileInputStream(file);
 			TypeReference<List<Event>> typeRef = new TypeReference<List<Event>>() { };
 			events = MapperUtil.MAPPER.readValue(in, typeRef);
+			
+			events.removeIf(REMOVED);
 		} catch (Exception e) {
 			LOG.error("Error reading events from " + eventPath, e);
 			events = new java.util.ArrayList<>();
