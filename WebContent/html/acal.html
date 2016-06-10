@@ -52,7 +52,7 @@
 	
 	<script type="text/ng-template" id="add.html">
 		<div id="viewAdd">
-		What: <input type="text" ng-model="ctrl.event.what" required/>
+		What: <input id="eventDescription" type="text" ng-model="ctrl.event.what" required/>
 		<br>
 		Start: <input type="text" datepicker ng-model="ctrl.event.start" required/>
 		<br>
@@ -139,8 +139,7 @@
 		<tr class="week" ng-repeat="week in ctrl.weeks">
 			<td ng-repeat="day in week.days" class="day {{day.dow}} {{day.month}}">
 				<span class="daytitle">{{day.month}} {{day.dom}}</span>
-				<span class="dayaddevent" ng-click="ctrl.addEventToDay('{{day.id}}')">+</span>
-				<span ng-click="alert('ok!')">ok</span>
+				<span class="dayaddevent" ng-click="ctrl.addEventToDay(day.id)">+</span>
 				
 				
 				<p ng-repeat="event in day.events" class="dayevent">

@@ -152,6 +152,15 @@ angular.module("acalApp", ["ngRoute"])
 	
 	self.updateStatus = "none";
 	
+	$scope.$on("addEventToDay", function(event, dayId) {
+		self.event.what = '';
+		self.event.start = dayId;
+		self.event.end = '';
+		self.event.allDay = true;
+		self.event.type = '';
+		jQuery("#eventDescription").val("New Event"); //focus();
+	});
+	
 	// Save the event in self.event (manipulated in page)
 	self.save = function() {
 		$http.post("save", self.event).then(update);
@@ -190,7 +199,7 @@ angular.module("acalApp", ["ngRoute"])
 
     $scope.currentTab = 'today.html';
 
-    $scope.onClickTab = function (tab) {
+    $scope.onClickTab = function(tab) {
         $scope.currentTab = tab.url;
     }
     
@@ -199,7 +208,7 @@ angular.module("acalApp", ["ngRoute"])
     };
     
     $scope.$on("addEventToDay", function(event, dayId) {
-    	alert("Got day ID '" + dayId + "'");
+    	$scope.currentTab = 'add.html';
     });
 }])
 
