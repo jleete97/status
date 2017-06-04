@@ -28,6 +28,27 @@ function next(s) {
 	return offsetInDays(s, 7);
 }
 
+function parseISODate(s) {
+	  var b = s.split(/\D/);
+	  var d = new Date();
+	  d.setHours(0,0,0,0);
+	  d.setFullYear(b[0], --b[1], b[2]);
+	  return d.getFullYear() == b[0] && d.getDate() == b[2]? d : NaN;
+}
+
+function strfill() {
+	var base = document.getElementById("t1").value;
+	var fill = document.getElementById("t2").value;
+	var len = parseInt(document.getElementById("len").value);
+	return base.fill(fill, len);
+}
+
+function repeat() {
+	var base = document.getElementById("t3").value;
+	var reps = parseInt(document.getElementById("reps").value);
+	return base.repeat(reps);
+}
+
 // Helper functions.
 
 function offsetInDays(s, offset) {
@@ -35,6 +56,26 @@ function offsetInDays(s, offset) {
 	var offsetTimestamp = timestamp + offset * DAY; // long
 	var offsetDate = new Date(offsetTimestamp); // Date
 	return offsetDate.toISOString().substring(0, 10);
+}
+
+
+if (!String.prototype.repeat) {
+	String.prototype.repeat = function(n) {
+		n = n || 1;
+		return Array(n + 1).join(this);
+	}
+}
+
+String.prototype.fill = function(str, toLen) {
+	if (this.length >= toLen) {
+		return this;
+	} else {
+		str = str || " ";
+		var fillLen = toLen - this.length;
+		var reps = fillLen / str.length;
+		var remainder = fillLen % str.length;
+		return str.repeat(reps) + str.substring(0, remainder) + this;
+	}
 }
 </script>
 </head>
@@ -46,6 +87,16 @@ function offsetInDays(s, offset) {
 <button onclick="show(week(moo()))">Week</button>
 <button onclick="show(previous(moo()))">Previous</button>
 <button onclick="show(next(moo()))">Next</button>
+<button onclick="show(parseISODate(today()))">ParseISO</button>
+<br>
+base: <input type="text" id="t1"/>
+fill: <input type="text" id="t2"/>
+length: <input type="text" id="len"/>
+<button onclick="show(strfill())">Show fill</button>
+<br>
+base: <input type="text" id="t3"/>
+reps: <input type="text" id="reps"/>
+<button onclick="show(repeat())">Repeat</button>
 
 </body>
 

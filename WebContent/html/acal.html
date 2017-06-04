@@ -13,6 +13,7 @@
 	<script src="js/status-app.js"></script>
 
 	<!-- Local interface building -->
+	<script src='js/helper.js'></script>
 	<script src='js/acal.js'></script>
 	<script src='js/weather.js'></script>
 	<!-- script src='js/calendar.js'></script -->
@@ -141,9 +142,9 @@
 				<span class="daytitle">{{day.month}} {{day.dom}}</span>
 				<span class="dayaddevent" ng-click="ctrl.addEventToDay(day.id)">+</span>
 				
-				
 				<p ng-repeat="event in day.events" class="dayevent">
-				{{event.what}}  <span class="remove" ng-click="ctrl.remove(event.id)">X</span>
+				<span class="edit" ng-click="ctrl.edit(event.id)">{{event.what}}</span>
+				<span class="remove" ng-click="ctrl.remove(event.id)">X</span>
 				</p>
 			</td>
 		</tr>

@@ -231,6 +231,7 @@ angular.module("acalApp", ["ngRoute"])
 
 // Date helper functions
 // Standard format = ISO 8601 = YYYY-MM-DD
+// We convert this to GMT internally
 
 var DAY = 24 * 60 * 60 * 1000; // Day in msec
 var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -238,7 +239,11 @@ var DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 // Return today in standard format.
 function today() {
-	return new Date().toISOString().substring(0, 10);
+	var d = new Date();
+	return d.getUTCFullYear()
+			+ "-" + ("" + (d.getUTCMonth() + 1).fill("0", 2)
+			+ "-" + ("" + d.getUTCDate()).fill("0", 2);
+//	return new Date().toISOString().substring(0, 10);
 }
 
 // Get standard-format date at beginning of week specified by ds.

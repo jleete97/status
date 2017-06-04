@@ -2,6 +2,7 @@
     <wb-module deploy-name="small1">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/config"/>
         <property name="context-root" value="small1"/>
         <property name="java-output-path" value="/small1/build/classes"/>
     </wb-module>
